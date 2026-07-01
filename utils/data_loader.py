@@ -1,25 +1,32 @@
 import pandas as pd
 
 
-def load_dataset(file_path: str) -> pd.DataFrame:
+class DataLoader:
     """
-    Load the customer churn dataset.
-
-    Parameters
-    ----------
-    file_path : str
-        Path of the Excel or CSV file.
-
-    Returns
-    -------
-    pd.DataFrame
+    Responsible for loading datasets from CSV or Excel files.
     """
 
-    if file_path.endswith(".csv"):
-        return pd.read_csv(file_path)
+    def load_data(self, file_path: str) -> pd.DataFrame:
+        """
+        Load the dataset.
 
-    elif file_path.endswith(".xlsx"):
-        return pd.read_excel(file_path)
+        Parameters
+        ----------
+        file_path : str
+            Path to CSV or Excel file.
 
-    else:
-        raise ValueError("Unsupported file format")
+        Returns
+        -------
+        pd.DataFrame
+        """
+
+        if file_path.endswith(".csv"):
+            return pd.read_csv(file_path)
+
+        elif file_path.endswith(".xlsx"):
+            return pd.read_excel(file_path)
+
+        else:
+            raise ValueError(
+                "Unsupported file format. Only CSV and XLSX files are supported."
+            )

@@ -1,7 +1,20 @@
-from utils.data_loader import load_dataset
+from utils.data_loader import DataLoader
 
-FILE_PATH = "data/raw/customer_churn_dataset.csv"
+DATASET_PATH = "data/raw/customer_churn_dataset.csv"
 
-df = load_dataset(FILE_PATH)
 
-print(df.head())
+def main():
+
+    loader = DataLoader()
+
+    df = loader.load_data(DATASET_PATH)
+
+    print("=" * 60)
+    print("DATASET LOADED SUCCESSFULLY")
+    print("=" * 60)
+
+    print(df.head())
+
+
+if __name__ == "__main__":
+    main()
