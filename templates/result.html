@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="result-container">
+
+    <div class="result-card">
+
+        <h1>
+
+            Prediction Result
+
+        </h1>
+
+        {% if prediction == 1 %}
+
+        <div class="status churn">
+
+            Customer is likely to Churn
+
+        </div>
+
+        {% else %}
+
+        <div class="status stay">
+
+            Customer is likely to Stay
+
+        </div>
+
+        {% endif %}
+
+        <div class="probability-box">
+
+            <h2>
+
+                Prediction Probability
+
+            </h2>
+
+            <h1>
+
+                {{ "%.2f"|format(probability) }}%
+
+            </h1>
+
+        </div>
+
+        <div class="button-group">
+
+            <a
+                href="/predict"
+                class="btn"
+            >
+                Predict Again
+            </a>
+
+            <a
+                href="/"
+                class="btn secondary-btn"
+            >
+                Home
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

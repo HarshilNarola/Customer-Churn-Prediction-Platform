@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="result-container">
+
+    <div class="result-card">
+
+        <h1>
+
+            Success
+
+        </h1>
+
+        <div class="status stay">
+
+            {{ message }}
+
+        </div>
+
+        <div class="button-group">
+
+            <a
+                href="/batch-predict"
+                class="btn"
+            >
+
+                Upload Another File
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

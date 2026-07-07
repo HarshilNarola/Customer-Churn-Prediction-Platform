@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="models-page">
+
+    <h1>
+
+        Model Comparison
+
+    </h1>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Model</th>
+                <th>Accuracy</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>F1 Score</th>
+                <th>ROC AUC</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for row in table %}
+
+            <tr>
+
+                <td>{{ row["Model"] }}</td>
+                <td>{{ "%.4f"|format(row["Accuracy"]) }}</td>
+                <td>{{ "%.4f"|format(row["Precision"]) }}</td>
+                <td>{{ "%.4f"|format(row["Recall"]) }}</td>
+                <td>{{ "%.4f"|format(row["F1 Score"]) }}</td>
+                <td>{{ "%.4f"|format(row["ROC AUC"]) }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <div class="best-model">
+
+        <h2>
+
+            Best Model
+
+        </h2>
+
+        <h1>
+
+            {{ best_model["Model"] }}
+
+        </h1>
+
+        <p>
+
+            Accuracy :
+            {{ "%.4f"|format(best_model["Accuracy"]) }}
+
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

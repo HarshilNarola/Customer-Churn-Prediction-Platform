@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="prediction-container">
+
+    <div class="prediction-card">
+
+        <h1>
+            Predict Customer Churn
+        </h1>
+
+        <p>
+            Fill in the customer details below.
+        </p>
+
+        <form method="POST">
+
+            <div class="form-grid">
+
+                <!-- Age -->
+                <div class="form-group">
+                    <label>Age</label>
+                    <input
+                        type="number"
+                        name="Age"
+                        min="18"
+                        max="65"
+                        required
+                    >
+                </div>
+
+                <!-- Gender -->
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select name="Gender" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
+                <!-- Tenure -->
+                <div class="form-group">
+                    <label>Tenure</label>
+                    <input
+                        type="number"
+                        name="Tenure"
+                        min="1"
+                        max="60"
+                        required
+                    >
+                </div>
+
+                <!-- Usage Frequency -->
+                <div class="form-group">
+                    <label>Usage Frequency</label>
+                    <input
+                        type="number"
+                        name="Usage Frequency"
+                        min="1"
+                        max="30"
+                        required
+                    >
+                </div>
+
+                <!-- Support Calls -->
+                <div class="form-group">
+                    <label>Support Calls</label>
+                    <input
+                        type="number"
+                        name="Support Calls"
+                        min="0"
+                        max="10"
+                        required
+                    >
+                </div>
+
+                <!-- Payment Delay -->
+                <div class="form-group">
+                    <label>Payment Delay</label>
+                    <input
+                        type="number"
+                        name="Payment Delay"
+                        min="0"
+                        max="30"
+                        required
+                    >
+                </div>
+
+                <!-- Subscription Type -->
+                <div class="form-group">
+                    <label>Subscription Type</label>
+                    <select name="Subscription Type" required>
+                        <option value="Basic">Basic</option>
+                        <option value="Standard">Standard</option>
+                        <option value="Premium">Premium</option>
+                    </select>
+                </div>
+
+                <!-- Contract Length -->
+                <div class="form-group">
+                    <label>Contract Length</label>
+                    <select name="Contract Length" required>
+                        <option value="Monthly">Monthly</option>
+                        <option value="Quarterly">Quarterly</option>
+                        <option value="Annual">Annual</option>
+                    </select>
+                </div>
+
+                <!-- Total Spend -->
+                <div class="form-group">
+                    <label>Total Spend</label>
+                    <input
+                        type="number"
+                        name="Total Spend"
+                        min="100"
+                        max="1000"
+                        required
+                    >
+                </div>
+
+                <!-- Last Interaction -->
+                <div class="form-group">
+                    <label>Last Interaction</label>
+                    <input
+                        type="number"
+                        name="Last Interaction"
+                        min="1"
+                        max="30"
+                        required
+                    >
+                </div>
+
+            </div>
+
+            <button
+                type="submit"
+                class="predict-btn"
+            >
+                Predict Customer
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- Feature Description Section -->
+<!-- ===================================================== -->
+
+<div class="info-container">
+
+    <div class="info-card">
+
+        <h2>Input Field Description</h2>
+
+        <table class="info-table">
+
+            <tr>
+                <th>Field</th>
+                <th>Description</th>
+            </tr>
+
+            <tr>
+                <td>Age</td>
+                <td>Customer's age in years.</td>
+            </tr>
+
+            <tr>
+                <td>Gender</td>
+                <td>Customer's gender.</td>
+            </tr>
+
+            <tr>
+                <td>Tenure</td>
+                <td>Number of months the customer has been with the company.</td>
+            </tr>
+
+            <tr>
+                <td>Usage Frequency</td>
+                <td>Number of times the customer used the service during the observed period.</td>
+            </tr>
+
+            <tr>
+                <td>Support Calls</td>
+                <td>Total customer support calls made.</td>
+            </tr>
+
+            <tr>
+                <td>Payment Delay</td>
+                <td>Average payment delay in days.</td>
+            </tr>
+
+            <tr>
+                <td>Subscription Type</td>
+                <td>Customer's current subscription plan.</td>
+            </tr>
+
+            <tr>
+                <td>Contract Length</td>
+                <td>Duration of the customer's service contract.</td>
+            </tr>
+
+            <tr>
+                <td>Total Spend</td>
+                <td>Total amount spent by the customer.</td>
+            </tr>
+
+            <tr>
+                <td>Last Interaction</td>
+                <td>Number of days since the customer's last interaction with the company.</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Customer Churn Prediction Platform</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<header>
+
+    <nav class="navbar">
+
+        <div class="logo">
+
+            Customer Churn Prediction
+
+        </div>
+
+        <ul class="nav-links">
+
+            <li>
+                <a href="/">Home</a>
+            </li>
+
+            <li>
+                <a href="/predict">Single Predict</a>
+            </li>
+
+            <li>
+                <a href="/batch-predict">Batch Predict</a>
+            </li>
+
+            <li>
+                <a href="/dashboard">Dashboard</a>
+            </li>
+
+            <li>
+                <a href="/models">Models</a>
+            </li>
+
+            <li>
+                <a href="/about">About</a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+</header>
+
+<main>
+
+    {% block content %}
+
+    {% endblock %}
+
+</main>
+
+<footer>
+
+    <p>
+
+        © 2026 Customer Churn Prediction Platform
+
+    </p>
+
+</footer>
+
+</body>
+
+</html>

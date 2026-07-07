@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="prediction-container">
+
+    <div class="prediction-card">
+
+        <h1>
+
+            Batch Customer Churn Prediction
+
+        </h1>
+
+        <p>
+
+            Upload a CSV file containing customer records.
+            The application will predict churn for every customer
+            and generate a downloadable CSV file.
+
+        </p>
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+            <div class="form-group">
+
+                <label>
+
+                    Select CSV File
+
+                </label>
+
+                <input
+
+                    type="file"
+
+                    name="file"
+
+                    accept=".csv"
+
+                    required
+
+                >
+
+            </div>
+
+            <button
+                type="submit"
+                class="predict-btn"
+            >
+
+                Upload & Predict
+
+            </button>
+
+        </form>
+
+        <hr
+            style="
+                margin:40px 0;
+            "
+        >
+
+        <h2>
+
+            Required CSV Columns
+
+        </h2>
+
+        <table class="info-table">
+
+            <tr>
+
+                <th>
+
+                    Column Name
+
+                </th>
+
+            </tr>
+
+            <tr><td>Age</td></tr>
+
+            <tr><td>Gender</td></tr>
+
+            <tr><td>Tenure</td></tr>
+
+            <tr><td>Usage Frequency</td></tr>
+
+            <tr><td>Support Calls</td></tr>
+
+            <tr><td>Payment Delay</td></tr>
+
+            <tr><td>Subscription Type</td></tr>
+
+            <tr><td>Contract Length</td></tr>
+
+            <tr><td>Total Spend</td></tr>
+
+            <tr><td>Last Interaction</td></tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -2,15 +2,15 @@ from flask import Blueprint
 from flask import render_template
 
 
-main = Blueprint(
-    "main",
+about = Blueprint(
+    "about",
     __name__
 )
 
 
-@main.route("/")
-def home():
+@about.route("/about")
+def about_page():
 
     return render_template(
-        "home.html"
+        "about.html"
     )

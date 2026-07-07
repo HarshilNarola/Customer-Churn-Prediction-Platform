@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="result-container">
+
+    <div class="result-card">
+
+        <h1>
+
+            Invalid Input
+
+        </h1>
+
+        <div class="status churn">
+
+            {{ message }}
+
+        </div>
+
+        <div class="button-group">
+
+            <a
+                href="/predict"
+                class="btn"
+            >
+
+                Try Again
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
