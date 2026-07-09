@@ -1,107 +1,131 @@
-# Customer Churn Prediction Platform
+# 📉 Customer Churn Prediction Platform
 
-A full-stack Machine Learning web application that predicts whether a customer is likely to churn using supervised machine learning algorithms. The project demonstrates an end-to-end machine learning workflow, from data preprocessing and exploratory data analysis (EDA) to model training, evaluation, probability calibration, and deployment using Flask.
+A Full Stack Machine Learning web application that predicts whether a customer is likely to churn using supervised machine learning algorithms.
+
+The project demonstrates an end-to-end Machine Learning workflow including data preprocessing, exploratory data analysis (EDA), model training, evaluation, hyperparameter tuning, probability calibration, and deployment using Flask and Docker.
 
 ---
 
-## Features
+# 🌐 Live Demo
 
-- Single customer churn prediction through a web form
-- Batch prediction using CSV file upload
-- Automatic data preprocessing
+**Application**
+
+https://customer-churn-prediction-platform-1-osgi.onrender.com
+
+---
+
+# ✨ Features
+
+- Single Customer Churn Prediction
+- Batch Prediction using CSV Upload
+- Automatic Data Preprocessing
 - Exploratory Data Analysis (EDA)
-- Model comparison across multiple machine learning algorithms
-- Hyperparameter tuning using GridSearchCV
+- Model Comparison
+- Hyperparameter Tuning
 - 5-Fold Cross Validation
-- Probability calibration using Sigmoid Calibration
-- Downloadable batch prediction results
-- Performance reports and visualizations
-- Responsive web interface built with Flask
-- Automatic calibrated model download for deployment
+- Probability Calibration
+- Download Prediction Results
+- Responsive User Interface
+- Docker Deployment
+- Render Cloud Deployment
 
 ---
 
-## Technology Stack
-
-### Backend
-
-- Python
-- Flask
-
-### Machine Learning
-
-- Scikit-learn
-- Pandas
-- NumPy
-- Joblib
-
-### Data Visualization
-
-- Matplotlib
-
-### Frontend
-
-- HTML5
-- CSS3
-
-### Development Tools
-
-- Git
-- GitHub
-- VS Code
-
-### Deployment
-
-- Render
-- Gunicorn
-- Google Drive (Model Storage)
-
----
-
-## Machine Learning Pipeline
+# 🧠 Machine Learning Pipeline
 
 ```text
-Dataset
-    ↓
+Customer Dataset
+        │
+        ▼
 Data Inspection
-    ↓
-Data Leakage Analysis
-    ↓
+        │
+        ▼
+Data Leakage Detection
+        │
+        ▼
 Data Preprocessing
-    ↓
+        │
+        ▼
 Exploratory Data Analysis
-    ↓
+        │
+        ▼
 Model Training
-    ↓
+        │
+        ▼
 Cross Validation
-    ↓
+        │
+        ▼
 Hyperparameter Tuning
-    ↓
+        │
+        ▼
 Model Evaluation
-    ↓
+        │
+        ▼
 Probability Calibration
-    ↓
-Flask Deployment
+        │
+        ▼
+Flask Web Application
+        │
+        ▼
+Docker Deployment
 ```
 
 ---
 
-## Machine Learning Models
+# 🤖 Machine Learning Models
 
-The following supervised learning algorithms were implemented and compared:
+The following classification algorithms were implemented and evaluated:
 
 - Logistic Regression
 - Decision Tree
 - Random Forest
 - K-Nearest Neighbors
 - Gaussian Naive Bayes
-- Support Vector Machine
+- Support Vector Machine (SVM)
 
-The final deployed model is a **Calibrated Random Forest Classifier**.
+The final deployed model is a
+
+**Calibrated Random Forest Classifier**
 
 ---
 
-## Project Structure
+# 🛠️ Technology Stack
+
+## Backend
+
+- Python
+- Flask
+
+## Machine Learning
+
+- Scikit-learn
+- NumPy
+- Pandas
+- Joblib
+
+## Data Visualization
+
+- Matplotlib
+
+## Frontend
+
+- HTML5
+- CSS3
+
+## Deployment
+
+- Docker
+- Render
+
+## Development Tools
+
+- Git
+- GitHub
+- VS Code
+
+---
+
+# 📂 Project Structure
 
 ```text
 Customer-Churn-Prediction-Platform/
@@ -124,23 +148,23 @@ Customer-Churn-Prediction-Platform/
 ├── utils/
 │
 ├── app.py
-├── Procfile
-├── runtime.txt
+├── Dockerfile
+├── .dockerignore
 ├── requirements.txt
 └── README.md
 ```
 
 ---
 
-## Installation
+# 🚀 Getting Started
 
-Clone the repository.
+## Clone Repository
 
 ```bash
 git clone https://github.com/HarshilNarola/Customer-Churn-Prediction-Platform.git
 ```
 
-Move into the project directory.
+Move into the project.
 
 ```bash
 cd Customer-Churn-Prediction-Platform
@@ -152,7 +176,7 @@ Create a virtual environment.
 python -m venv venv
 ```
 
-Activate the virtual environment.
+Activate it.
 
 ### Windows
 
@@ -166,139 +190,132 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-Install the required packages.
+Install dependencies.
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-## Calibrated Model
-
-The deployed application uses a **Calibrated Random Forest** model for probability estimation.
-
-The model file (`models/calibrated_best_model.pkl`) is **not included** in this repository because it exceeds GitHub's 100 MB file size limit.
-
-### Local Development
-
-Generate the calibrated model by running:
-
-```bash
-python -m tests.test_final_model
-```
-
-Then run:
-
-```bash
-python -m tests.test_probability_calibration
-```
-
-This creates:
-
-```text
-models/calibrated_best_model.pkl
-```
-
-which is required for prediction.
-
-### Deployment
-
-During deployment, the application automatically downloads the calibrated model from Google Drive if it is not already present.
-
-For cloud deployment, configure the following environment variable:
-
-| Variable | Description |
-|----------|-------------|
-| `MODEL_FILE_ID` | Google Drive File ID of the calibrated model |
-
----
-
-## Running the Application
-
-Start the Flask server.
+Run the application.
 
 ```bash
 python app.py
 ```
 
-Open your browser and visit:
+Open
 
-```text
+```
 http://127.0.0.1:5000
 ```
 
 ---
 
-## Project Modules
+# 🐳 Docker Deployment
 
-- Data Loading
-- Data Inspection
-- Data Leakage Detection
-- Data Preprocessing
-- Exploratory Data Analysis
-- Model Training
-- Cross Validation
-- Hyperparameter Tuning
-- Model Evaluation
-- Probability Calibration
-- Single Customer Prediction
-- Batch Prediction
-- Flask Web Application
+Build the Docker image.
+
+```bash
+docker build -t customer-churn-app .
+```
+
+Run the container.
+
+```bash
+docker run -p 5000:5000 customer-churn-app
+```
+
+Open
+
+```
+http://localhost:5000
+```
 
 ---
 
-## Reports
+# 📊 Reports
 
-The `reports/` directory contains:
+The project contains:
 
-- EDA Report
-- Model Comparison Report
+- Exploratory Data Analysis Report
+- Cross Validation Report
 - Final Model Report
-- Hyperparameter Tuning Summary
-- Cross Validation Results
-- Grid Search Results
 - Project Report
 
 ---
 
-## Test Scripts
+# 🧪 Testing
 
 The project includes test scripts for:
 
 - Data Loader
 - Data Inspector
 - Data Leakage Detection
-- Preprocessing Service
-- Model Training Service
+- Data Preprocessing
+- Model Training
 - Cross Validation
 - Hyperparameter Tuning
-- Evaluation Service
 - Probability Calibration
-- Final Model
+- Final Model Evaluation
 - EDA Service
 
 ---
 
-## Deployment
+# 📷 Application Screenshots
 
-This application is configured for deployment on **Render**.
+You can add screenshots here.
 
-Deployment configuration includes:
+Example:
 
-- Gunicorn web server
-- Automatic model download
-- Environment variable support
-- Render-compatible startup configuration
+- Home Page
+- Prediction Page
+- Result Page
+- Batch Prediction
+- About Page
+- Models Page
 
 ---
 
-## Future Improvements
+# 🚀 Future Improvements
 
-- Docker support
-- User authentication
+- User Authentication
 - REST API
 - Explainable AI (SHAP/LIME)
-- Database integration
+- Database Integration
+- CI/CD Pipeline
+- Kubernetes Deployment
+- Monitoring Dashboard
 
 ---
+
+# 👨‍💻 Author
+
+**Harshil Narola**
+
+GitHub
+
+https://github.com/HarshilNarola
+
+LinkedIn
+
+(Add your LinkedIn profile here)
+
+---
+
+# ⭐ Project Status
+
+Current Version
+
+✅ Completed
+
+- End-to-End Machine Learning Pipeline
+- Flask Web Application
+- Docker Deployment
+- Render Deployment
+
+---
+
+## 📌 Note
+
+This application automatically downloads the calibrated machine learning model when required during deployment.
+
+The model file is not stored inside the GitHub repository because it exceeds GitHub's file size limit.
