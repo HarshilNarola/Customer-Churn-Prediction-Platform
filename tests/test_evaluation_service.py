@@ -1,283 +1,219 @@
+"""
+Test script for evaluating machine learning models and
+generating evaluation reports.
+"""
+
+from services.evaluation_service import EvaluationService
+from services.model_training_service import ModelTrainingService
+from services.preprocessing_service import PreprocessingService
 from utils.data_loader import DataLoader
 
-from services.preprocessing_service import PreprocessingService
-from services.model_training_service import ModelTrainingService
-from services.evaluation_service import EvaluationService
 
+# ==========================================================
+# Constants
+# ==========================================================
 
 DATASET_PATH = "data/raw/customer_churn_dataset.csv"
 
+MODELS = [
+
+    (
+        "Logistic Regression",
+        "train_logistic_regression",
+        False
+    ),
+
+    (
+        "Decision Tree",
+        "train_decision_tree",
+        True
+    ),
+
+    (
+        "Random Forest",
+        "train_random_forest",
+        True
+    ),
+
+    (
+        "KNN",
+        "train_knn",
+        False
+    ),
+
+    (
+        "Gaussian Naive Bayes",
+        "train_naive_bayes",
+        False
+    ),
+
+    (
+        "Support Vector Machine",
+        "train_svm",
+        False
+    )
+
+]
+
+
+# ==========================================================
+# Helper Function
+# ==========================================================
+
+def print_section(title):
+
+    print("\n" + "=" * 80)
+    print(title)
+    print("=" * 80)
+
+
+# ==========================================================
+# Main
+# ==========================================================
 
 def main():
 
-    # ==========================================================
+    # ------------------------------------------------------
     # Load Dataset
-    # ==========================================================
+    # ------------------------------------------------------
 
     loader = DataLoader()
 
-    df = loader.load_data(DATASET_PATH)
+    dataframe = loader.load_data(
 
-    # ==========================================================
+        DATASET_PATH
+
+    )
+
+    # ------------------------------------------------------
     # Preprocess Dataset
-    # ==========================================================
+    # ------------------------------------------------------
 
-    preprocessing = PreprocessingService()
+    preprocessing_service = PreprocessingService()
 
-    X_train, X_test, y_train, y_test = preprocessing.preprocess(df)
+    X_train, X_test, y_train, y_test = (
+
+        preprocessing_service.preprocess(
+
+            dataframe
+
+        )
+
+    )
 
     feature_names = X_train.columns
 
-    # ==========================================================
+    # ------------------------------------------------------
     # Initialize Services
-    # ==========================================================
+    # ------------------------------------------------------
 
     trainer = ModelTrainingService()
 
     evaluator = EvaluationService()
 
-    # ==========================================================
-    # Logistic Regression
-    # ==========================================================
+    trained_models = {}
 
-    logistic_model, logistic_results = trainer.train_logistic_regression(
-        X_train,
-        X_test,
-        y_train,
-        y_test
-    )
+    # ------------------------------------------------------
+    # Evaluate Models
+    # ------------------------------------------------------
 
-    evaluator.add_result(
-        "Logistic Regression",
-        logistic_results
-    )
+    for model_name, train_method, plot_importance in MODELS:
 
-    evaluator.plot_confusion_matrix(
-        logistic_model,
-        X_test,
-        y_test,
-        "Logistic Regression"
-    )
+        model, results = getattr(
 
-    evaluator.plot_roc_curve(
-        logistic_model,
-        X_test,
-        y_test,
-        "Logistic Regression"
-    )
+            trainer,
 
-    # ==========================================================
-    # Decision Tree
-    # ==========================================================
+            train_method
 
-    decision_tree_model, decision_tree_results = trainer.train_decision_tree(
-        X_train,
-        X_test,
-        y_train,
-        y_test
-    )
+        )(
 
-    evaluator.add_result(
-        "Decision Tree",
-        decision_tree_results
-    )
+            X_train,
 
-    evaluator.plot_confusion_matrix(
-        decision_tree_model,
-        X_test,
-        y_test,
-        "Decision Tree"
-    )
+            X_test,
 
-    evaluator.plot_roc_curve(
-        decision_tree_model,
-        X_test,
-        y_test,
-        "Decision Tree"
-    )
+            y_train,
 
-    evaluator.plot_feature_importance(
-        decision_tree_model,
-        feature_names,
-        "Decision Tree"
-    )
+            y_test
 
-    # ==========================================================
-    # Random Forest
-    # ==========================================================
+        )
 
-    random_forest_model, random_forest_results = trainer.train_random_forest(
-        X_train,
-        X_test,
-        y_train,
-        y_test
-    )
+        trained_models[model_name] = model
 
-    evaluator.add_result(
-        "Random Forest",
-        random_forest_results
-    )
+        evaluator.add_result(
 
-    evaluator.plot_confusion_matrix(
-        random_forest_model,
-        X_test,
-        y_test,
-        "Random Forest"
-    )
+            model_name,
 
-    evaluator.plot_roc_curve(
-        random_forest_model,
-        X_test,
-        y_test,
-        "Random Forest"
-    )
+            results
 
-    evaluator.plot_feature_importance(
-        random_forest_model,
-        feature_names,
-        "Random Forest"
-    )
+        )
 
-    # ==========================================================
-    # KNN
-    # ==========================================================
+        evaluator.plot_confusion_matrix(
 
-    knn_model, knn_results = trainer.train_knn(
-        X_train,
-        X_test,
-        y_train,
-        y_test
-    )
+            model,
 
-    evaluator.add_result(
-        "KNN",
-        knn_results
-    )
+            X_test,
 
-    evaluator.plot_confusion_matrix(
-        knn_model,
-        X_test,
-        y_test,
-        "KNN"
-    )
+            y_test,
 
-    evaluator.plot_roc_curve(
-        knn_model,
-        X_test,
-        y_test,
-        "KNN"
-    )
+            model_name
 
-    # ==========================================================
-    # Gaussian Naive Bayes
-    # ==========================================================
+        )
 
-    naive_model, naive_results = trainer.train_naive_bayes(
-        X_train,
-        X_test,
-        y_train,
-        y_test
-    )
+        evaluator.plot_roc_curve(
 
-    evaluator.add_result(
-        "Gaussian Naive Bayes",
-        naive_results
-    )
+            model,
 
-    evaluator.plot_confusion_matrix(
-        naive_model,
-        X_test,
-        y_test,
-        "Gaussian Naive Bayes"
-    )
+            X_test,
 
-    evaluator.plot_roc_curve(
-        naive_model,
-        X_test,
-        y_test,
-        "Gaussian Naive Bayes"
-    )
+            y_test,
 
-    # ==========================================================
-    # Support Vector Machine
-    # ==========================================================
+            model_name
 
-    svm_model, svm_results = trainer.train_svm(
-        X_train,
-        X_test,
-        y_train,
-        y_test
-    )
+        )
 
-    evaluator.add_result(
-        "Support Vector Machine",
-        svm_results
-    )
+        if plot_importance:
 
-    evaluator.plot_confusion_matrix(
-        svm_model,
-        X_test,
-        y_test,
-        "Support Vector Machine"
-    )
+            evaluator.plot_feature_importance(
 
-    evaluator.plot_roc_curve(
-        svm_model,
-        X_test,
-        y_test,
-        "Support Vector Machine"
-    )
+                model,
 
-    # ==========================================================
-    # Print Comparison
-    # ==========================================================
+                feature_names,
+
+                model_name
+
+            )
+
+    # ------------------------------------------------------
+    # Reports
+    # ------------------------------------------------------
 
     evaluator.print_comparison()
-
-    # ==========================================================
-    # Save Reports
-    # ==========================================================
 
     evaluator.save_csv()
 
     evaluator.save_markdown()
 
-    # ==========================================================
+    # ------------------------------------------------------
     # Best Model
-    # ==========================================================
+    # ------------------------------------------------------
 
-    best = evaluator.get_best_model()
-
-    model_mapping = {
-
-        "Logistic Regression": logistic_model,
-
-        "Decision Tree": decision_tree_model,
-
-        "Random Forest": random_forest_model,
-
-        "KNN": knn_model,
-
-        "Gaussian Naive Bayes": naive_model,
-
-        "Support Vector Machine": svm_model
-
-    }
-
-    best_model = model_mapping[best["Model"]]
+    best_model_information = evaluator.get_best_model()
 
     evaluator.save_best_model(
-        best_model
+
+        trained_models[
+
+            best_model_information["Model"]
+
+        ]
+
     )
 
-    print()
+    print_section("BEST MODEL")
 
-    print("=" * 80)
-    print("BEST MODEL")
-    print("=" * 80)
-
-    print(best)
+    print(best_model_information)
 
 
 if __name__ == "__main__":
+
     main()

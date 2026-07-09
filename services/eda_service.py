@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -6,32 +6,77 @@ import pandas as pd
 
 class EDAService:
     """
-    Provides visualization utilities for Exploratory Data Analysis.
+    Provides visualization utilities for
+    Exploratory Data Analysis (EDA).
     """
 
-    def __init__(self, dataframe: pd.DataFrame):
-        self.df = dataframe
-        self.output_dir = "static/images/eda"
+    OUTPUT_DIRECTORY = Path("static/images/eda")
 
-        os.makedirs(self.output_dir, exist_ok=True)
-
-    # ==========================================================
-    # Private Helper Function
-    # ==========================================================
-
-    def _finalize_plot(self, filename: str, save: bool, show: bool):
+    def __init__(
+        self,
+        dataframe: pd.DataFrame
+    ) -> None:
         """
-        Saves and/or displays the current plot.
+        Initialize the EDA service.
+        """
+
+        self.dataframe = dataframe
+
+        self.OUTPUT_DIRECTORY.mkdir(
+
+            parents=True,
+
+            exist_ok=True
+
+        )
+
+    # ==========================================================
+    # Private Helper Methods
+    # ==========================================================
+
+    def _generate_filename(
+        self,
+        name: str,
+        suffix: str
+    ) -> str:
+        """
+        Generate a standardized filename.
+        """
+
+        return (
+
+            name.lower()
+
+            .replace(" ", "_")
+
+            + suffix
+
+        )
+
+    def _finalize_plot(
+        self,
+        filename: str,
+        save: bool = True,
+        show: bool = True
+    ) -> None:
+        """
+        Save and/or display the current plot.
         """
 
         if save:
+
             plt.savefig(
-                os.path.join(self.output_dir, filename),
+
+                self.OUTPUT_DIRECTORY / filename,
+
                 dpi=300,
-                bbox_inches="tight",
+
+                bbox_inches="tight"
+
             )
 
         if show:
+
             plt.show()
 
         plt.close()
@@ -40,42 +85,68 @@ class EDAService:
     # Target Variable Analysis
     # ==========================================================
 
-    def plot_target_distribution(self, save=True, show=True):
+    def plot_target_distribution(
+        self,
+        save: bool = True,
+        show: bool = True
+    ) -> None:
 
         fig, ax = plt.subplots(figsize=(7, 5))
 
-        self.df["Churn"].value_counts().plot(
+        self.dataframe["Churn"].value_counts().plot(
+
             kind="bar",
+
             ax=ax
+
         )
 
         ax.set_title("Customer Churn Distribution")
+
         ax.set_xlabel("Churn")
+
         ax.set_ylabel("Number of Customers")
 
         self._finalize_plot(
+
             "target_distribution.png",
+
             save,
-            show,
+
+            show
+
         )
 
-    def plot_target_percentage(self, save=True, show=True):
+    def plot_target_percentage(
+        self,
+        save: bool = True,
+        show: bool = True
+    ) -> None:
 
         fig, ax = plt.subplots(figsize=(6, 6))
 
-        self.df["Churn"].value_counts().plot(
+        self.dataframe["Churn"].value_counts().plot(
+
             kind="pie",
+
             autopct="%1.1f%%",
+
             ax=ax
+
         )
 
         ax.set_ylabel("")
+
         ax.set_title("Customer Churn Percentage")
 
         self._finalize_plot(
+
             "target_percentage.png",
+
             save,
-            show,
+
+            show
+
         )
 
     # ==========================================================
@@ -84,59 +155,77 @@ class EDAService:
 
     def plot_histogram(
         self,
-        column_name,
-        bins=30,
-        save=True,
-        show=True,
-    ):
+        column_name: str,
+        bins: int = 30,
+        save: bool = True,
+        show: bool = True
+    ) -> None:
 
         fig, ax = plt.subplots(figsize=(8, 5))
 
         ax.hist(
-            self.df[column_name],
+
+            self.dataframe[column_name],
+
             bins=bins
+
         )
 
         ax.set_title(f"{column_name} Distribution")
+
         ax.set_xlabel(column_name)
+
         ax.set_ylabel("Frequency")
 
-        filename = (
-            column_name.lower()
-            .replace(" ", "_")
-            + "_distribution.png"
-        )
-
         self._finalize_plot(
-            filename,
+
+            self._generate_filename(
+
+                column_name,
+
+                "_distribution.png"
+
+            ),
+
             save,
-            show,
+
+            show
+
         )
 
     def plot_boxplot(
         self,
-        column_name,
-        save=True,
-        show=True,
-    ):
+        column_name: str,
+        save: bool = True,
+        show: bool = True
+    ) -> None:
 
         fig, ax = plt.subplots(figsize=(8, 5))
 
-        ax.boxplot(self.df[column_name])
+        ax.boxplot(
 
-        ax.set_title(f"{column_name} Boxplot")
-        ax.set_ylabel(column_name)
+            self.dataframe[column_name]
 
-        filename = (
-            column_name.lower()
-            .replace(" ", "_")
-            + "_boxplot.png"
         )
 
+        ax.set_title(f"{column_name} Boxplot")
+
+        ax.set_ylabel(column_name)
+
         self._finalize_plot(
-            filename,
+
+            self._generate_filename(
+
+                column_name,
+
+                "_boxplot.png"
+
+            ),
+
             save,
-            show,
+
+            show
+
         )
 
     # ==========================================================
@@ -145,65 +234,86 @@ class EDAService:
 
     def plot_countplot(
         self,
-        column_name,
-        save=True,
-        show=True,
-    ):
+        column_name: str,
+        save: bool = True,
+        show: bool = True
+    ) -> None:
 
         fig, ax = plt.subplots(figsize=(8, 5))
 
-        self.df[column_name].value_counts().plot(
+        self.dataframe[column_name].value_counts().plot(
+
             kind="bar",
+
             ax=ax
+
         )
 
         ax.set_title(f"{column_name} Distribution")
+
         ax.set_xlabel(column_name)
+
         ax.set_ylabel("Count")
 
-        filename = (
-            column_name.lower()
-            .replace(" ", "_")
-            + "_countplot.png"
-        )
-
         self._finalize_plot(
-            filename,
+
+            self._generate_filename(
+
+                column_name,
+
+                "_countplot.png"
+
+            ),
+
             save,
-            show,
+
+            show
+
         )
 
     def plot_countplot_by_target(
         self,
-        column_name,
-        save=True,
-        show=True,
-    ):
+        column_name: str,
+        save: bool = True,
+        show: bool = True
+    ) -> None:
 
         fig, ax = plt.subplots(figsize=(8, 5))
 
         pd.crosstab(
-            self.df[column_name],
-            self.df["Churn"]
+
+            self.dataframe[column_name],
+
+            self.dataframe["Churn"]
+
         ).plot(
+
             kind="bar",
+
             ax=ax
+
         )
 
         ax.set_title(f"{column_name} vs Churn")
+
         ax.set_xlabel(column_name)
+
         ax.set_ylabel("Count")
 
-        filename = (
-            column_name.lower()
-            .replace(" ", "_")
-            + "_vs_churn.png"
-        )
-
         self._finalize_plot(
-            filename,
+
+            self._generate_filename(
+
+                column_name,
+
+                "_vs_churn.png"
+
+            ),
+
             save,
-            show,
+
+            show
+
         )
 
     # ==========================================================
@@ -212,66 +322,108 @@ class EDAService:
 
     def plot_boxplot_by_target(
         self,
-        column_name,
-        target="Churn",
-        save=True,
-        show=True,
-    ):
+        column_name: str,
+        target: str = "Churn",
+        save: bool = True,
+        show: bool = True
+    ) -> None:
 
         fig, ax = plt.subplots(figsize=(8, 5))
 
-        self.df.boxplot(
+        self.dataframe.boxplot(
+
             column=column_name,
+
             by=target,
-            ax=ax,
+
+            ax=ax
+
         )
 
-        ax.set_title(f"{column_name} vs {target}")
-        ax.set_xlabel(target)
-        ax.set_ylabel(column_name)
-
-        # Remove pandas default title
         plt.suptitle("")
 
-        filename = (
-            column_name.lower()
-            .replace(" ", "_")
-            + "_vs_churn_boxplot.png"
-        )
+        ax.set_title(f"{column_name} vs {target}")
+
+        ax.set_xlabel(target)
+
+        ax.set_ylabel(column_name)
 
         self._finalize_plot(
-            filename,
+
+            self._generate_filename(
+
+                column_name,
+
+                "_vs_churn_boxplot.png"
+
+            ),
+
             save,
-            show,
+
+            show
+
         )
+
+    # ==========================================================
+    # Correlation Heatmap
+    # ==========================================================
 
     def plot_correlation_heatmap(
         self,
-        save=True,
-        show=True,
-    ):
+        save: bool = True,
+        show: bool = True
+    ) -> None:
 
         fig, ax = plt.subplots(figsize=(10, 8))
 
-        correlation = self.df.drop(columns=["CustomerID"]).corr(numeric_only=True)
+        correlation = self.dataframe.drop(
 
-        image = ax.imshow(
-            correlation,
-            cmap="coolwarm",
-            aspect="auto",
+            columns=["CustomerID"],
+
+            errors="ignore"
+
+        ).corr(
+
+            numeric_only=True
+
         )
 
-        ax.set_xticks(range(len(correlation.columns)))
-        ax.set_yticks(range(len(correlation.columns)))
+        image = ax.imshow(
+
+            correlation,
+
+            cmap="coolwarm",
+
+            aspect="auto"
+
+        )
+
+        ax.set_xticks(
+
+            range(len(correlation.columns))
+
+        )
+
+        ax.set_yticks(
+
+            range(len(correlation.columns))
+
+        )
 
         ax.set_xticklabels(
+
             correlation.columns,
+
             rotation=45,
-            ha="right",
+
+            ha="right"
+
         )
 
         ax.set_yticklabels(
+
             correlation.columns
+
         )
 
         plt.colorbar(image)
@@ -281,7 +433,11 @@ class EDAService:
         plt.tight_layout()
 
         self._finalize_plot(
+
             "correlation_heatmap.png",
+
             save,
-            show,
+
+            show
+
         )

@@ -1,9 +1,11 @@
-import os
+from pathlib import Path
 
-from flask import Blueprint
-from flask import render_template
-from flask import request
-from flask import send_file
+from flask import (
+    Blueprint,
+    render_template,
+    request,
+    send_file
+)
 
 from controllers.batch_prediction_controller import (
     BatchPredictionController
@@ -17,12 +19,29 @@ batch_prediction = Blueprint(
 
 controller = BatchPredictionController()
 
+UPLOAD_DIRECTORY = Path("uploads")
+DOWNLOAD_DIRECTORY = Path("downloads")
+
+UPLOAD_DIRECTORY.mkdir(
+    parents=True,
+    exist_ok=True
+)
+
+DOWNLOAD_DIRECTORY.mkdir(
+    parents=True,
+    exist_ok=True
+)
+
 
 @batch_prediction.route(
     "/batch-predict",
     methods=["GET", "POST"]
 )
 def batch_predict():
+    """
+    Handle batch customer churn prediction using
+    an uploaded CSV file.
+    """
 
     # ==========================================================
     # GET Request
@@ -35,10 +54,12 @@ def batch_predict():
         )
 
     # ==========================================================
-    # Check File Upload
+    # Validate Uploaded File
     # ==========================================================
 
-    if "file" not in request.files:
+    uploaded_file = request.files.get("file")
+
+    if uploaded_file is None:
 
         return render_template(
 
@@ -48,9 +69,7 @@ def batch_predict():
 
         )
 
-    file = request.files["file"]
-
-    if file.filename == "":
+    if uploaded_file.filename == "":
 
         return render_template(
 
@@ -60,51 +79,45 @@ def batch_predict():
 
         )
 
-    # ==========================================================
-    # Validate File Type
-    # ==========================================================
-
-    if not file.filename.lower().endswith(".csv"):
+    if not uploaded_file.filename.lower().endswith(".csv"):
 
         return render_template(
 
             "error.html",
 
-            message="Only CSV files are allowed."
+            message="Only CSV files are supported."
 
         )
 
     # ==========================================================
-    # Save Uploaded File
+    # Save File
     # ==========================================================
 
-    os.makedirs(
-        "uploads",
-        exist_ok=True
+    file_path = UPLOAD_DIRECTORY / uploaded_file.filename
+
+    uploaded_file.save(
+        file_path
     )
-
-    os.makedirs(
-        "downloads",
-        exist_ok=True
-    )
-
-    filepath = os.path.join(
-
-        "uploads",
-
-        file.filename
-
-    )
-
-    file.save(filepath)
 
     # ==========================================================
-    # Process CSV
+    # Process Prediction
     # ==========================================================
 
-    output_file, missing_columns = controller.process(
-        filepath
-    )
+    try:
+
+        output_file, missing_columns = controller.process(
+            str(file_path)
+        )
+
+    except Exception as error:
+
+        return render_template(
+
+            "error.html",
+
+            message=str(error)
+
+        )
 
     if missing_columns:
 
@@ -112,8 +125,10 @@ def batch_predict():
 
             "error.html",
 
-            message="Missing Columns: " +
-            ", ".join(missing_columns)
+            message=(
+                "Missing required columns: "
+                + ", ".join(missing_columns)
+            )
 
         )
 

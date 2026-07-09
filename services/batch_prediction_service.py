@@ -1,114 +1,175 @@
-import os
+from pathlib import Path
+
 import joblib
 import pandas as pd
 
 
 class BatchPredictionService:
+    """
+    Handles batch prediction for customer churn using
+    the trained preprocessing pipeline and calibrated model.
+    """
 
-    def __init__(self):
+    MODEL_PATH = Path("models/calibrated_best_model.pkl")
+    PIPELINE_PATH = Path("models/preprocessing_pipeline.pkl")
+    DOWNLOAD_DIRECTORY = Path("downloads")
+
+    REQUIRED_COLUMNS = [
+        "Age",
+        "Gender",
+        "Tenure",
+        "Usage Frequency",
+        "Support Calls",
+        "Payment Delay",
+        "Subscription Type",
+        "Contract Length",
+        "Total Spend",
+        "Last Interaction"
+    ]
+
+    CATEGORICAL_COLUMNS = [
+        "Gender",
+        "Subscription Type",
+        "Contract Length"
+    ]
+
+    NUMERICAL_COLUMNS = [
+        "Age",
+        "Tenure",
+        "Usage Frequency",
+        "Support Calls",
+        "Payment Delay",
+        "Total Spend",
+        "Last Interaction"
+    ]
+
+    def __init__(self) -> None:
+        """
+        Load the preprocessing pipeline and trained model.
+        """
+
+        if not self.PIPELINE_PATH.exists():
+            raise FileNotFoundError(
+                f"Pipeline not found: {self.PIPELINE_PATH}"
+            )
+
+        if not self.MODEL_PATH.exists():
+            raise FileNotFoundError(
+                f"Model not found: {self.MODEL_PATH}"
+            )
 
         self.pipeline = joblib.load(
-            "models/preprocessing_pipeline.pkl"
+            self.PIPELINE_PATH
         )
 
         self.model = joblib.load(
-            "models/best_model.pkl"
+            self.MODEL_PATH
+        )
+
+        self.DOWNLOAD_DIRECTORY.mkdir(
+            parents=True,
+            exist_ok=True
         )
 
     # ==========================================================
     # Load CSV
     # ==========================================================
 
-    def load_csv(self, filepath):
+    def load_csv(
+        self,
+        filepath: str
+    ) -> pd.DataFrame:
+        """
+        Load a CSV file for batch prediction.
+        """
 
         return pd.read_csv(filepath)
 
     # ==========================================================
-    # Validate Columns
+    # Validate Required Columns
     # ==========================================================
 
-    def validate_columns(self, df):
+    def validate_columns(
+        self,
+        dataframe: pd.DataFrame
+    ) -> list[str]:
+        """
+        Check whether all required columns are present.
+        """
 
-        required_columns = [
-
-            "Age",
-            "Gender",
-            "Tenure",
-            "Usage Frequency",
-            "Support Calls",
-            "Payment Delay",
-            "Subscription Type",
-            "Contract Length",
-            "Total Spend",
-            "Last Interaction"
-
-        ]
-
-        missing = [
+        return [
 
             column
 
-            for column in required_columns
+            for column in self.REQUIRED_COLUMNS
 
-            if column not in df.columns
+            if column not in dataframe.columns
 
         ]
 
-        return missing
-
     # ==========================================================
-    # Preprocess
+    # Preprocess Data
     # ==========================================================
 
-    def preprocess(self, df):
+    def preprocess(
+        self,
+        dataframe: pd.DataFrame
+    ) -> pd.DataFrame:
+        """
+        Apply the saved preprocessing pipeline.
+        """
 
-        df = df.copy()
+        dataframe = dataframe.copy()
 
         label_encoders = self.pipeline["label_encoders"]
 
         scaler = self.pipeline["scaler"]
 
-        categorical_columns = [
+        for column in self.CATEGORICAL_COLUMNS:
 
-            "Gender",
-            "Subscription Type",
-            "Contract Length"
+            try:
 
-        ]
+                dataframe[column] = label_encoders[column].transform(
 
-        for column in categorical_columns:
+                    dataframe[column]
 
-            df[column] = label_encoders[column].transform(
-                df[column]
-            )
+                )
 
-        numerical_columns = [
+            except ValueError as error:
 
-            "Age",
-            "Tenure",
-            "Usage Frequency",
-            "Support Calls",
-            "Payment Delay",
-            "Total Spend",
-            "Last Interaction"
+                raise ValueError(
 
-        ]
+                    f"Unknown value found in column '{column}'."
 
-        df[numerical_columns] = scaler.transform(
-            df[numerical_columns]
+                ) from error
+
+        dataframe[self.NUMERICAL_COLUMNS] = scaler.transform(
+
+            dataframe[self.NUMERICAL_COLUMNS]
+
         )
 
-        return df
+        return dataframe
 
     # ==========================================================
     # Predict
     # ==========================================================
 
-    def predict(self, df):
+    def predict(
+        self,
+        dataframe: pd.DataFrame
+    ) -> tuple:
+        """
+        Predict customer churn and probability.
+        """
 
-        prediction = self.model.predict(df)
+        prediction = self.model.predict(
+            dataframe
+        )
 
-        probability = self.model.predict_proba(df)[:, 1]
+        probability = self.model.predict_proba(
+            dataframe
+        )[:, 1]
 
         return prediction, probability
 
@@ -117,40 +178,38 @@ class BatchPredictionService:
     # ==========================================================
 
     def save_results(
-
         self,
-
-        original_df,
-
+        original_dataframe: pd.DataFrame,
         prediction,
-
         probability
+    ) -> Path:
+        """
+        Save prediction results to a CSV file.
+        """
 
-    ):
-
-        output = original_df.copy()
+        output = original_dataframe.copy()
 
         output["Prediction"] = [
 
             "Churn"
 
-            if p == 1
+            if value == 1
 
             else "Stay"
 
-            for p in prediction
+            for value in prediction
 
         ]
 
-        output["Probability"] = (
+        output["Probability (%)"] = (
 
             probability * 100
 
         ).round(2)
 
-        output_path = os.path.join(
+        output_path = (
 
-            "downloads",
+            self.DOWNLOAD_DIRECTORY /
 
             "prediction_results.csv"
 

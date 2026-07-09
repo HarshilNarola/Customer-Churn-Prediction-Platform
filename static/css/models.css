@@ -1,0 +1,363 @@
+/* =======================================================
+   Models Page
+======================================================= */
+
+.models-page{
+
+    width:90%;
+
+    max-width:1300px;
+
+    margin:60px auto;
+
+}
+
+/* =======================================================
+   Header
+======================================================= */
+
+.page-header{
+
+    text-align:center;
+
+    margin-bottom:60px;
+
+}
+
+.page-header h1{
+
+    font-size:44px;
+
+    color:#1565C0;
+
+    margin-bottom:20px;
+
+}
+
+.page-description{
+
+    max-width:900px;
+
+    margin:auto;
+
+    color:#555;
+
+    line-height:1.9;
+
+    font-size:18px;
+
+}
+
+/* =======================================================
+   Best Model
+======================================================= */
+
+.best-model{
+
+    background:white;
+
+    padding:40px;
+
+    border-radius:15px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+
+    margin-bottom:60px;
+
+    text-align:center;
+
+}
+
+.best-model h2{
+
+    color:#1565C0;
+
+}
+
+.best-model h1{
+
+    margin:20px 0;
+
+    font-size:42px;
+
+}
+
+/* =======================================================
+   Metrics
+======================================================= */
+
+.metric-grid{
+
+    margin-top:35px;
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+
+}
+
+.metric-card{
+
+    background:#f8fbff;
+
+    padding:25px;
+
+    border-radius:10px;
+
+}
+
+.metric-card h3{
+
+    color:#1565C0;
+
+    margin-bottom:12px;
+
+}
+
+.metric-card p{
+
+    font-size:24px;
+
+    font-weight:bold;
+
+}
+
+/* =======================================================
+   Pipeline
+======================================================= */
+
+.pipeline-card{
+
+    margin-bottom:60px;
+
+    text-align:center;
+
+}
+
+.pipeline-card h2{
+
+    color:#1565C0;
+
+    margin-bottom:25px;
+
+}
+
+.workflow-box{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:12px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:18px;
+
+    flex-wrap:wrap;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+    font-weight:bold;
+
+    color:#1565C0;
+
+}
+
+.workflow-box span{
+
+    font-size:24px;
+
+}
+
+/* =======================================================
+   Section Title
+======================================================= */
+
+.section-title{
+
+    color:#1565C0;
+
+    margin-bottom:25px;
+
+    margin-top:40px;
+
+}
+
+/* =======================================================
+   Table
+======================================================= */
+
+.table-note{
+
+    margin-top:18px;
+
+    text-align:center;
+
+    color:#666;
+
+    font-style:italic;
+
+}
+
+/* =======================================================
+   Information Cards
+======================================================= */
+
+.info-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:25px;
+
+    margin:60px 0;
+
+}
+
+.info-card{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:12px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+}
+
+.info-card h2{
+
+    color:#1565C0;
+
+    margin-bottom:15px;
+
+}
+
+.info-card p{
+
+    line-height:1.8;
+
+    color:#555;
+
+}
+
+/* =======================================================
+   Models Grid
+======================================================= */
+
+.model-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:25px;
+
+    margin-top:30px;
+
+}
+
+.model-card{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:12px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+    transition:.3s;
+
+}
+
+.model-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.model-card h3{
+
+    color:#1565C0;
+
+    margin-bottom:15px;
+
+}
+
+.model-card p{
+
+    line-height:1.8;
+
+    color:#555;
+
+}
+
+/* =======================================================
+   Responsive
+======================================================= */
+
+@media(max-width:1100px){
+
+    .metric-grid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+    .info-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .model-grid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .models-page{
+
+        width:95%;
+
+    }
+
+    .page-header h1{
+
+        font-size:36px;
+
+    }
+
+    .metric-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .model-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .workflow-box{
+
+        flex-direction:column;
+
+    }
+
+}

@@ -1,31 +1,87 @@
 {% extends "base.html" %}
 
+{% block styles %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/error.css') }}"
+>
+
+{% endblock %}
+
 {% block content %}
 
-<div class="result-container">
+<div class="error-container">
 
-    <div class="result-card">
+    <div class="error-card">
+
+        <div class="error-icon">
+
+            ⚠️
+
+        </div>
 
         <h1>
 
-            Invalid Input
+            Something Went Wrong
 
         </h1>
 
-        <div class="status churn">
+        <p class="error-description">
+
+            The request could not be processed because of the following issue.
+
+        </p>
+
+        <div class="error-message">
 
             {{ message }}
 
         </div>
 
+        <p class="error-note">
+
+            Please review your input and try again. If you are uploading a CSV
+            file, make sure it follows the required format and contains all
+            mandatory columns.
+
+        </p>
+
         <div class="button-group">
 
             <a
-                href="/predict"
+
+                href="{{ url_for('prediction.predict') }}"
+
                 class="btn"
+
             >
 
-                Try Again
+                Single Prediction
+
+            </a>
+
+            <a
+
+                href="{{ url_for('batch_prediction.batch_predict') }}"
+
+                class="btn secondary-btn"
+
+            >
+
+                Batch Prediction
+
+            </a>
+
+            <a
+
+                href="{{ url_for('main.home') }}"
+
+                class="btn secondary-btn"
+
+            >
+
+                Back to Home
 
             </a>
 

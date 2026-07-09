@@ -1,0 +1,235 @@
+/* =======================================================
+   Result Page
+======================================================= */
+
+.result-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:70px 20px;
+
+}
+
+.result-card{
+
+    width:100%;
+
+    max-width:850px;
+
+    background:#ffffff;
+
+    padding:50px;
+
+    border-radius:16px;
+
+    box-shadow:0 12px 30px rgba(0,0,0,.12);
+
+    text-align:center;
+
+}
+
+.result-card h1{
+
+    color:#1565C0;
+
+    font-size:38px;
+
+    margin-bottom:20px;
+
+}
+
+.result-description{
+
+    color:#666;
+
+    font-size:17px;
+
+    line-height:1.8;
+
+    margin-bottom:35px;
+
+}
+
+/* =======================================================
+   Prediction Status
+======================================================= */
+
+.status{
+
+    display:inline-block;
+
+    padding:18px 40px;
+
+    border-radius:10px;
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    margin-bottom:35px;
+
+}
+
+.status.stay{
+
+    background:#E8F5E9;
+
+    color:#2E7D32;
+
+    border:2px solid #66BB6A;
+
+}
+
+.status.churn{
+
+    background:#FFEBEE;
+
+    color:#C62828;
+
+    border:2px solid #EF5350;
+
+}
+
+/* =======================================================
+   Probability
+======================================================= */
+
+.probability-box{
+
+    background:#F8FAFC;
+
+    border:2px solid #E3EAF3;
+
+    border-radius:12px;
+
+    padding:35px;
+
+    margin-bottom:35px;
+
+}
+
+.probability-box h2{
+
+    color:#1565C0;
+
+    margin-bottom:20px;
+
+    font-size:28px;
+
+}
+
+.probability-box h1{
+
+    font-size:64px;
+
+    color:#1565C0;
+
+    margin-bottom:20px;
+
+}
+
+.probability-box p{
+
+    color:#666;
+
+    line-height:1.8;
+
+    font-size:16px;
+
+}
+
+/* =======================================================
+   Note
+======================================================= */
+
+.result-note{
+
+    margin-bottom:35px;
+
+    padding:18px;
+
+    background:#EEF6FF;
+
+    border-left:5px solid #1565C0;
+
+    border-radius:8px;
+
+    color:#444;
+
+    text-align:left;
+
+    line-height:1.8;
+
+}
+
+/* =======================================================
+   Buttons
+======================================================= */
+
+.button-group{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+}
+
+.button-group .btn{
+
+    min-width:220px;
+
+}
+
+/* =======================================================
+   Responsive
+======================================================= */
+
+@media(max-width:768px){
+
+    .result-card{
+
+        padding:35px 25px;
+
+    }
+
+    .result-card h1{
+
+        font-size:30px;
+
+    }
+
+    .status{
+
+        font-size:20px;
+
+        width:100%;
+
+    }
+
+    .probability-box h1{
+
+        font-size:48px;
+
+    }
+
+    .button-group{
+
+        flex-direction:column;
+
+    }
+
+    .button-group .btn{
+
+        width:100%;
+
+    }
+
+}

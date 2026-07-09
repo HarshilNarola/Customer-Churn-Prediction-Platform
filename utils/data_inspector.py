@@ -3,39 +3,76 @@ import pandas as pd
 
 class DataInspector:
     """
-    Performs basic inspection of a dataset.
+    Provides utility methods for inspecting a dataset.
     """
 
-    def __init__(self, dataframe: pd.DataFrame):
-        self.df = dataframe
+    def __init__(self, dataframe: pd.DataFrame) -> None:
+        """
+        Initialize the DataInspector with a pandas DataFrame.
+        """
+        self.dataframe = dataframe
 
-    def get_shape(self):
-        return self.df.shape
+    def get_shape(self) -> tuple:
+        """
+        Return the shape of the dataset.
+        """
+        return self.dataframe.shape
 
-    def get_columns(self):
-        return list(self.df.columns)
+    def get_columns(self) -> list:
+        """
+        Return all column names.
+        """
+        return list(self.dataframe.columns)
 
-    def get_data_types(self):
-        return self.df.dtypes
+    def get_data_types(self) -> pd.Series:
+        """
+        Return the data type of each column.
+        """
+        return self.dataframe.dtypes
 
-    def get_missing_values(self):
-        return self.df.isnull().sum()
+    def get_missing_values(self) -> pd.Series:
+        """
+        Return the number of missing values in each column.
+        """
+        return self.dataframe.isnull().sum()
 
-    def get_duplicate_rows(self):
-        return self.df.duplicated().sum()
+    def get_duplicate_rows(self) -> int:
+        """
+        Return the number of duplicate rows.
+        """
+        return self.dataframe.duplicated().sum()
 
-    def get_summary_statistics(self):
-        return self.df.describe(include="all")
+    def get_summary_statistics(self) -> pd.DataFrame:
+        """
+        Return summary statistics for the dataset.
+        """
+        return self.dataframe.describe(include="all")
 
-    def get_target_distribution(self):
-        return self.df["Churn"].value_counts()
+    def get_target_distribution(self) -> pd.Series:
+        """
+        Return the distribution of the target variable.
+        """
+        if "Churn" not in self.dataframe.columns:
+            raise KeyError("Target column 'Churn' not found.")
 
-    def get_numerical_columns(self):
+        return self.dataframe["Churn"].value_counts()
+
+    def get_numerical_columns(self) -> list:
+        """
+        Return all numerical column names.
+        """
         return list(
-            self.df.select_dtypes(include=["number"]).columns
+            self.dataframe.select_dtypes(
+                include=["number"]
+            ).columns
         )
 
-    def get_categorical_columns(self):
+    def get_categorical_columns(self) -> list:
+        """
+        Return all categorical column names.
+        """
         return list(
-            self.df.select_dtypes(include=["object", "category"]).columns
+            self.dataframe.select_dtypes(
+                include=["object", "category"]
+            ).columns
         )

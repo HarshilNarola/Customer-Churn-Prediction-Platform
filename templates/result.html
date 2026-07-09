@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 
+{% block styles %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/result.css') }}"
+>
+
+{% endblock %}
+
 {% block content %}
 
 <div class="result-container">
@@ -11,6 +20,17 @@
             Prediction Result
 
         </h1>
+
+        <p class="result-description">
+
+            The prediction below was generated using the deployed
+            <strong>Calibrated Random Forest</strong> model.
+
+        </p>
+
+        <!-- ====================================================== -->
+        <!-- Prediction -->
+        <!-- ====================================================== -->
 
         {% if prediction == 1 %}
 
@@ -30,11 +50,15 @@
 
         {% endif %}
 
+        <!-- ====================================================== -->
+        <!-- Probability -->
+        <!-- ====================================================== -->
+
         <div class="probability-box">
 
             <h2>
 
-                Prediction Probability
+                Churn Probability
 
             </h2>
 
@@ -44,22 +68,57 @@
 
             </h1>
 
+            <p>
+
+                This value represents the model's estimated probability
+                that the customer belongs to the churn class.
+
+            </p>
+
         </div>
+
+        <!-- ====================================================== -->
+        <!-- Note -->
+        <!-- ====================================================== -->
+
+        <div class="result-note">
+
+            <strong>Note:</strong>
+
+            Machine learning predictions are probabilistic estimates and
+            should be used to support business decision-making rather than
+            replace human judgment.
+
+        </div>
+
+        <!-- ====================================================== -->
+        <!-- Actions -->
+        <!-- ====================================================== -->
 
         <div class="button-group">
 
             <a
-                href="/predict"
+
+                href="{{ url_for('prediction.predict') }}"
+
                 class="btn"
+
             >
-                Predict Again
+
+                Predict Another Customer
+
             </a>
 
             <a
-                href="/"
+
+                href="{{ url_for('main.home') }}"
+
                 class="btn secondary-btn"
+
             >
-                Home
+
+                Back to Home
+
             </a>
 
         </div>

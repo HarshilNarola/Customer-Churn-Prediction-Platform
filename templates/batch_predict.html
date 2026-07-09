@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 
+{% block styles %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/batch_predict.css') }}"
+>
+
+{% endblock %}
+
 {% block content %}
 
 <div class="prediction-container">
@@ -14,11 +23,17 @@
 
         <p>
 
-            Upload a CSV file containing customer records.
-            The application will predict churn for every customer
-            and generate a downloadable CSV file.
+            Upload a CSV file containing customer information.
+            The deployed <strong>Calibrated Random Forest</strong> model
+            will predict churn for every customer and generate a downloadable
+            CSV report containing both predictions and calibrated
+            probability scores.
 
         </p>
+
+        <!-- ====================================================== -->
+        <!-- Upload Form -->
+        <!-- ====================================================== -->
 
         <form
             method="POST"
@@ -27,13 +42,15 @@
 
             <div class="form-group">
 
-                <label>
+                <label for="file">
 
                     Select CSV File
 
                 </label>
 
                 <input
+
+                    id="file"
 
                     type="file"
 
@@ -47,62 +64,174 @@
 
             </div>
 
-            <button
-                type="submit"
-                class="predict-btn"
-            >
+            <div class="form-buttons">
 
-                Upload & Predict
+                <button
+                    type="submit"
+                    class="predict-btn"
+                >
 
-            </button>
+                    Upload & Predict
+
+                </button>
+
+            </div>
 
         </form>
 
-        <hr
-            style="
-                margin:40px 0;
-            "
-        >
+        <!-- ====================================================== -->
+        <!-- Sample CSV -->
+        <!-- ====================================================== -->
 
-        <h2>
+        <div class="sample-section">
 
-            Required CSV Columns
+            <h2>
 
-        </h2>
+                Sample Input File
 
-        <table class="info-table">
+            </h2>
 
-            <tr>
+            <p>
 
-                <th>
+                Download the sample CSV to understand the required
+                file structure before uploading your own dataset.
 
-                    Column Name
+            </p>
 
-                </th>
+            <a
 
-            </tr>
+                href="{{ url_for('static', filename='sample/sample_batch_prediction_input.csv') }}"
 
-            <tr><td>Age</td></tr>
+                download
 
-            <tr><td>Gender</td></tr>
+                class="btn"
 
-            <tr><td>Tenure</td></tr>
+            >
 
-            <tr><td>Usage Frequency</td></tr>
+                📄 Download Sample CSV
 
-            <tr><td>Support Calls</td></tr>
+            </a>
 
-            <tr><td>Payment Delay</td></tr>
+        </div>
 
-            <tr><td>Subscription Type</td></tr>
+        <!-- ====================================================== -->
+        <!-- Required Columns -->
+        <!-- ====================================================== -->
 
-            <tr><td>Contract Length</td></tr>
+        <div class="requirements">
 
-            <tr><td>Total Spend</td></tr>
+            <h2>
 
-            <tr><td>Last Interaction</td></tr>
+                Required CSV Columns
 
-        </table>
+            </h2>
+
+            <p>
+
+                Your CSV file must contain the following columns
+                exactly as shown below.
+
+            </p>
+
+            <table class="info-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+
+                            Column Name
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr><td>Age</td></tr>
+
+                    <tr><td>Gender</td></tr>
+
+                    <tr><td>Tenure</td></tr>
+
+                    <tr><td>Usage Frequency</td></tr>
+
+                    <tr><td>Support Calls</td></tr>
+
+                    <tr><td>Payment Delay</td></tr>
+
+                    <tr><td>Subscription Type</td></tr>
+
+                    <tr><td>Contract Length</td></tr>
+
+                    <tr><td>Total Spend</td></tr>
+
+                    <tr><td>Last Interaction</td></tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- ====================================================== -->
+        <!-- Output Information -->
+        <!-- ====================================================== -->
+
+        <div class="output-section">
+
+            <h2>
+
+                Output File
+
+            </h2>
+
+            <p>
+
+                After processing, the generated CSV file will include:
+
+            </p>
+
+            <ul>
+
+                <li>
+
+                    Original customer information
+
+                </li>
+
+                <li>
+
+                    Predicted Class (Stay / Churn)
+
+                </li>
+
+                <li>
+
+                    Calibrated Churn Probability (%)
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- ====================================================== -->
+        <!-- Note -->
+        <!-- ====================================================== -->
+
+        <div class="batch-note">
+
+            <strong>Note:</strong>
+
+            The uploaded CSV must use the exact column names shown
+            above. Missing or incorrectly named columns will cause
+            the upload to fail.
+
+        </div>
 
     </div>
 

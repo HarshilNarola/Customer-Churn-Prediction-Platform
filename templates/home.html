@@ -1,31 +1,208 @@
 {% extends "base.html" %}
 
+{% block styles %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/home.css') }}"
+>
+
+{% endblock %}
+
 {% block content %}
+
+<!-- ====================================================== -->
+<!-- Hero Section -->
+<!-- ====================================================== -->
 
 <section class="hero">
 
-    <h1>
+    <div class="hero-content">
 
-        Customer Churn Prediction Platform
+        <h1>
 
-    </h1>
+            Customer Churn Prediction Platform
+
+        </h1>
+
+        <p>
+
+            Predict whether a customer is likely to discontinue a service using
+            Machine Learning. The platform supports both individual customer
+            prediction and batch prediction through CSV file uploads using a
+            calibrated Random Forest classifier that achieved over
+            <strong>99.9% accuracy</strong> on the evaluation dataset.
+
+        </p>
+
+        <div class="hero-buttons">
+
+            <a
+                href="{{ url_for('prediction.predict') }}"
+                class="btn"
+            >
+
+                Single Prediction
+
+            </a>
+
+            <a
+                href="{{ url_for('batch_prediction.batch_predict') }}"
+                class="btn secondary-btn"
+            >
+
+                Batch Prediction
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- Project Overview -->
+<!-- ====================================================== -->
+
+<section class="overview">
+
+    <h2>
+
+        Project Overview
+
+    </h2>
 
     <p>
 
-        Predict customer churn using Machine Learning models trained on customer behaviour data.
+        Customer churn prediction enables organizations to proactively identify
+        customers who are likely to discontinue using a service. This platform
+        combines data preprocessing, machine learning, hyperparameter tuning,
+        five-fold cross validation and probability calibration to deliver
+        reliable churn predictions for both individual customers and
+        large datasets.
 
     </p>
 
-    <a
-        href="/predict"
-        class="btn"
-    >
+</section>
 
-        Predict Now
+<!-- ====================================================== -->
+<!-- Project Statistics -->
+<!-- ====================================================== -->
 
-    </a>
+<section class="statistics">
+
+    <h2>
+
+        Project Statistics
+
+    </h2>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <h3>
+
+                64,374
+
+            </h3>
+
+            <p>
+
+                Customer Records
+
+            </p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>
+
+                10
+
+            </h3>
+
+            <p>
+
+                Input Features
+
+            </p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>
+
+                6
+
+            </h3>
+
+            <p>
+
+                Machine Learning Models
+
+            </p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>
+
+                5-Fold
+
+            </h3>
+
+            <p>
+
+                Cross Validation
+
+            </p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>
+
+                Sigmoid
+
+            </h3>
+
+            <p>
+
+                Probability Calibration
+
+            </p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>
+
+                99.93%
+
+            </h3>
+
+            <p>
+
+                Final Model Accuracy
+
+            </p>
+
+        </div>
+
+    </div>
 
 </section>
+
+<!-- ====================================================== -->
+<!-- Features -->
+<!-- ====================================================== -->
 
 <section class="features">
 
@@ -33,13 +210,15 @@
 
         <h2>
 
-            Machine Learning
+            Single Prediction
 
         </h2>
 
         <p>
 
-            Multiple ML models trained and evaluated.
+            Enter customer information through an interactive form and instantly
+            predict whether the customer is likely to churn along with the
+            calibrated probability.
 
         </p>
 
@@ -49,13 +228,15 @@
 
         <h2>
 
-            Fast Prediction
+            Batch Prediction
 
         </h2>
 
         <p>
 
-            Get churn prediction within seconds.
+            Upload a CSV file containing multiple customer records and download
+            a prediction report with churn labels and calibrated prediction
+            probabilities.
 
         </p>
 
@@ -65,15 +246,224 @@
 
         <h2>
 
-            Interactive Dashboard
+            Machine Learning Pipeline
 
         </h2>
 
         <p>
 
-            Explore dataset insights and model comparison.
+            Six supervised learning algorithms were evaluated. A calibrated
+            Random Forest model was selected after hyperparameter tuning,
+            cross validation and probability calibration for deployment.
 
         </p>
+
+    </div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- Workflow -->
+<!-- ====================================================== -->
+
+<section class="workflow">
+
+    <h2>
+
+        Prediction Workflow
+
+    </h2>
+
+    <div class="workflow-box">
+
+        Input Data
+
+        <span>→</span>
+
+        Preprocessing
+
+        <span>→</span>
+
+        Calibrated Random Forest
+
+        <span>→</span>
+
+        Probability Estimation
+
+        <span>→</span>
+
+        Prediction Result
+
+    </div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- Resources -->
+<!-- ====================================================== -->
+
+<section class="resources">
+
+    <h2>
+
+        Quick Start Guide
+
+    </h2>
+
+    <p>
+
+        Review the supported input format before making predictions.
+        For batch prediction, you can also download a sample CSV file.
+
+    </p>
+
+    <details class="guide-box">
+
+        <summary>
+
+            📘 View Input Guide
+
+        </summary>
+
+        <table class="guide-table">
+
+            <tr>
+
+                <th>Attribute</th>
+
+                <th>Description</th>
+
+                <th>Valid Values</th>
+
+            </tr>
+
+            <tr>
+
+                <td>Age</td>
+
+                <td>Customer age.</td>
+
+                <td>18 – 65</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Gender</td>
+
+                <td>Customer gender.</td>
+
+                <td>Male / Female</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Tenure</td>
+
+                <td>Months with the company.</td>
+
+                <td>1 – 60</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Usage Frequency</td>
+
+                <td>Monthly service usage.</td>
+
+                <td>1 – 30</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Support Calls</td>
+
+                <td>Customer support requests.</td>
+
+                <td>0 – 10</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Payment Delay</td>
+
+                <td>Average payment delay.</td>
+
+                <td>0 – 30</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Subscription Type</td>
+
+                <td>Current subscription plan.</td>
+
+                <td>Basic / Standard / Premium</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Contract Length</td>
+
+                <td>Service contract duration.</td>
+
+                <td>Monthly / Quarterly / Annual</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Total Spend</td>
+
+                <td>Total customer spending.</td>
+
+                <td>100 – 1000</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Last Interaction</td>
+
+                <td>Days since last interaction.</td>
+
+                <td>1 – 30</td>
+
+            </tr>
+
+        </table>
+
+        <p class="guide-note">
+
+            <strong>Note:</strong>
+            Uploaded CSV files must contain these column names exactly as shown
+            above.
+
+        </p>
+
+    </details>
+
+    <div class="resource-buttons">
+
+        <a
+
+            href="{{ url_for('static', filename='sample/sample_batch_prediction_input.csv') }}"
+
+            download
+
+            class="btn"
+
+        >
+
+            📄 Download Sample Input CSV
+
+        </a>
 
     </div>
 

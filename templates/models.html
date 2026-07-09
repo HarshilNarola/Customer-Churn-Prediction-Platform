@@ -1,75 +1,458 @@
 {% extends "base.html" %}
 
+{% block styles %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/models.css') }}"
+>
+
+{% endblock %}
+
 {% block content %}
 
 <div class="models-page">
 
-    <h1>
+    <!-- ===================================================== -->
+    <!-- Page Header -->
+    <!-- ===================================================== -->
 
-        Model Comparison
+    <section class="page-header">
 
-    </h1>
+        <h1>
 
-    <table>
+            Machine Learning Models
 
-        <thead>
+        </h1>
 
-            <tr>
+        <p class="page-description">
 
-                <th>Model</th>
-                <th>Accuracy</th>
-                <th>Precision</th>
-                <th>Recall</th>
-                <th>F1 Score</th>
-                <th>ROC AUC</th>
+            Six supervised machine learning algorithms were trained,
+            evaluated and compared for customer churn prediction.
+            The final deployed model was selected after
+            cross-validation, hyperparameter tuning and probability
+            calibration.
 
-            </tr>
+        </p>
 
-        </thead>
+    </section>
 
-        <tbody>
+    <!-- ===================================================== -->
+    <!-- Final Model -->
+    <!-- ===================================================== -->
 
-            {% for row in table %}
-
-            <tr>
-
-                <td>{{ row["Model"] }}</td>
-                <td>{{ "%.4f"|format(row["Accuracy"]) }}</td>
-                <td>{{ "%.4f"|format(row["Precision"]) }}</td>
-                <td>{{ "%.4f"|format(row["Recall"]) }}</td>
-                <td>{{ "%.4f"|format(row["F1 Score"]) }}</td>
-                <td>{{ "%.4f"|format(row["ROC AUC"]) }}</td>
-
-            </tr>
-
-            {% endfor %}
-
-        </tbody>
-
-    </table>
-
-    <div class="best-model">
+    <section class="best-model">
 
         <h2>
 
-            Best Model
+            Final Deployed Model
 
         </h2>
 
         <h1>
 
-            {{ best_model["Model"] }}
+            🏆 {{ best_model_info["Model"] }}
 
         </h1>
 
         <p>
 
-            Accuracy :
-            {{ "%.4f"|format(best_model["Accuracy"]) }}
+            This calibrated model achieved the best overall predictive
+            performance and is used throughout this platform for both
+            single and batch customer churn prediction.
 
         </p>
 
-    </div>
+        <div class="metric-grid">
+
+            <div class="metric-card">
+
+                <h3>Accuracy</h3>
+
+                <p>
+
+                    {{ "%.2f"|format(best_model_info["Accuracy"] * 100) }}%
+
+                </p>
+
+            </div>
+
+            <div class="metric-card">
+
+                <h3>Precision</h3>
+
+                <p>
+
+                    {{ "%.2f"|format(best_model_info["Precision"] * 100) }}%
+
+                </p>
+
+            </div>
+
+            <div class="metric-card">
+
+                <h3>Recall</h3>
+
+                <p>
+
+                    {{ "%.2f"|format(best_model_info["Recall"] * 100) }}%
+
+                </p>
+
+            </div>
+
+            <div class="metric-card">
+
+                <h3>F1 Score</h3>
+
+                <p>
+
+                    {{ "%.2f"|format(best_model_info["F1 Score"] * 100) }}%
+
+                </p>
+
+            </div>
+
+            <div class="metric-card">
+
+                <h3>ROC-AUC</h3>
+
+                <p>
+
+                    {{ "%.4f"|format(best_model_info["ROC AUC"]) }}
+
+                </p>
+
+            </div>
+
+            <div class="metric-card">
+
+                <h3>Cross Validation</h3>
+
+                <p>
+
+                    5-Fold
+
+                </p>
+
+            </div>
+
+            <div class="metric-card">
+
+                <h3>Hyperparameter Tuning</h3>
+
+                <p>
+
+                    GridSearchCV
+
+                </p>
+
+            </div>
+
+            <div class="metric-card">
+
+                <h3>Calibration</h3>
+
+                <p>
+
+                    Sigmoid
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Machine Learning Workflow -->
+    <!-- ===================================================== -->
+
+    <section class="pipeline-card">
+
+        <h2>
+
+            Machine Learning Workflow
+
+        </h2>
+
+        <div class="workflow-box">
+
+            Dataset
+
+            <span>→</span>
+
+            Preprocessing
+
+            <span>→</span>
+
+            Model Training
+
+            <span>→</span>
+
+            Cross Validation
+
+            <span>→</span>
+
+            Hyperparameter Tuning
+
+            <span>→</span>
+
+            Probability Calibration
+
+            <span>→</span>
+
+            Deployment
+
+        </div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Performance Comparison -->
+    <!-- ===================================================== -->
+
+    <section>
+
+        <h2 class="section-title">
+
+            Model Performance Comparison
+
+        </h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Model</th>
+                    <th>Accuracy</th>
+                    <th>Precision</th>
+                    <th>Recall</th>
+                    <th>F1 Score</th>
+                    <th>ROC-AUC</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for row in table %}
+
+                <tr>
+
+                    <td>{{ row["Model"] }}</td>
+
+                    <td>{{ "%.4f"|format(row["Accuracy"]) }}</td>
+
+                    <td>{{ "%.4f"|format(row["Precision"]) }}</td>
+
+                    <td>{{ "%.4f"|format(row["Recall"]) }}</td>
+
+                    <td>{{ "%.4f"|format(row["F1 Score"]) }}</td>
+
+                    <td>{{ "%.4f"|format(row["ROC AUC"]) }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        <p class="table-note">
+
+            Performance values were obtained using the held-out test dataset
+            after completing model optimization and evaluation.
+
+        </p>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Model Optimization -->
+    <!-- ===================================================== -->
+
+    <section class="info-grid">
+
+        <div class="info-card">
+
+            <h2>
+
+                Cross Validation
+
+            </h2>
+
+            <p>
+
+                Five-fold stratified cross validation was performed to
+                verify model stability and ensure consistent performance
+                across different subsets of the dataset.
+
+            </p>
+
+        </div>
+
+        <div class="info-card">
+
+            <h2>
+
+                Hyperparameter Tuning
+
+            </h2>
+
+            <p>
+
+                GridSearchCV was used to optimize Logistic Regression,
+                Decision Tree, Random Forest and K-Nearest Neighbors,
+                selecting the best configuration before deployment.
+
+            </p>
+
+        </div>
+
+        <div class="info-card">
+
+            <h2>
+
+                Probability Calibration
+
+            </h2>
+
+            <p>
+
+                Sigmoid calibration improved the reliability of predicted
+                probabilities by reducing the Brier Score while preserving
+                classification performance.
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Evaluated Models -->
+    <!-- ===================================================== -->
+
+    <section>
+
+        <h2 class="section-title">
+
+            Evaluated Machine Learning Algorithms
+
+        </h2>
+
+        <div class="model-grid">
+
+            <div class="model-card">
+
+                <h3>
+
+                    Logistic Regression
+
+                </h3>
+
+                <p>
+
+                    Linear baseline classifier for binary classification.
+
+                </p>
+
+            </div>
+
+            <div class="model-card">
+
+                <h3>
+
+                    Decision Tree
+
+                </h3>
+
+                <p>
+
+                    Tree-based classifier capable of learning nonlinear
+                    decision boundaries.
+
+                </p>
+
+            </div>
+
+            <div class="model-card">
+
+                <h3>
+
+                    Random Forest
+
+                </h3>
+
+                <p>
+
+                    Ensemble learning algorithm combining multiple decision
+                    trees to improve prediction accuracy and reduce overfitting.
+
+                </p>
+
+            </div>
+
+            <div class="model-card">
+
+                <h3>
+
+                    K-Nearest Neighbors
+
+                </h3>
+
+                <p>
+
+                    Instance-based learning algorithm using neighbouring
+                    samples for classification.
+
+                </p>
+
+            </div>
+
+            <div class="model-card">
+
+                <h3>
+
+                    Gaussian Naive Bayes
+
+                </h3>
+
+                <p>
+
+                    Probabilistic classifier based on Bayes' theorem with
+                    Gaussian feature assumptions.
+
+                </p>
+
+            </div>
+
+            <div class="model-card">
+
+                <h3>
+
+                    Support Vector Machine
+
+                </h3>
+
+                <p>
+
+                    Margin-based classifier that finds the optimal
+                    separating hyperplane between classes.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
 
 </div>
 

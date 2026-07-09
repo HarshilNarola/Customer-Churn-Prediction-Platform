@@ -1,0 +1,165 @@
+/* =======================================================
+   Error Page
+======================================================= */
+
+.error-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    min-height:70vh;
+
+    padding:40px 20px;
+
+}
+
+.error-card{
+
+    width:100%;
+
+    max-width:650px;
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:45px;
+
+    text-align:center;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+
+}
+
+/* =======================================================
+   Icon
+======================================================= */
+
+.error-icon{
+
+    font-size:70px;
+
+    margin-bottom:20px;
+
+}
+
+/* =======================================================
+   Title
+======================================================= */
+
+.error-card h1{
+
+    color:#c62828;
+
+    font-size:38px;
+
+    margin-bottom:15px;
+
+}
+
+/* =======================================================
+   Description
+======================================================= */
+
+.error-description{
+
+    color:#666;
+
+    line-height:1.8;
+
+    margin-bottom:25px;
+
+}
+
+/* =======================================================
+   Error Message
+======================================================= */
+
+.error-message{
+
+    background:#ffebee;
+
+    color:#c62828;
+
+    padding:20px;
+
+    border-radius:10px;
+
+    font-weight:bold;
+
+    font-size:18px;
+
+    margin-bottom:25px;
+
+}
+
+/* =======================================================
+   Note
+======================================================= */
+
+.error-note{
+
+    color:#555;
+
+    line-height:1.8;
+
+    margin-bottom:35px;
+
+}
+
+/* =======================================================
+   Buttons
+======================================================= */
+
+.button-group{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+}
+
+/* =======================================================
+   Responsive
+======================================================= */
+
+@media(max-width:700px){
+
+    .error-card{
+
+        padding:30px;
+
+    }
+
+    .error-card h1{
+
+        font-size:30px;
+
+    }
+
+    .error-icon{
+
+        font-size:55px;
+
+    }
+
+    .button-group{
+
+        flex-direction:column;
+
+    }
+
+    .button-group .btn{
+
+        width:100%;
+
+    }
+
+}

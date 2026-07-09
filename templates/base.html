@@ -11,76 +11,133 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Customer Churn Prediction Platform</title>
+    <meta
+        name="description"
+        content="Customer Churn Prediction Platform built using Flask and Machine Learning."
+    >
+
+    <title>
+
+        Customer Churn Prediction Platform
+
+    </title>
 
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='css/style.css') }}"
     >
 
+    {% block styles %}
+
+    {% endblock %}
+
 </head>
 
 <body>
 
-<header>
+    <!-- ====================================================== -->
+    <!-- Navigation -->
+    <!-- ====================================================== -->
 
-    <nav class="navbar">
+    <header>
 
-        <div class="logo">
+        <nav class="navbar">
 
-            Customer Churn Prediction
+            <div class="logo">
 
-        </div>
+                Customer Churn Prediction
 
-        <ul class="nav-links">
+            </div>
 
-            <li>
-                <a href="/">Home</a>
-            </li>
+            <ul class="nav-links">
 
-            <li>
-                <a href="/predict">Single Predict</a>
-            </li>
+                <li>
 
-            <li>
-                <a href="/batch-predict">Batch Predict</a>
-            </li>
+                    <a
+                        href="{{ url_for('main.home') }}"
+                    >
+                        Home
+                    </a>
 
-            <li>
-                <a href="/dashboard">Dashboard</a>
-            </li>
+                </li>
 
-            <li>
-                <a href="/models">Models</a>
-            </li>
+                <li>
 
-            <li>
-                <a href="/about">About</a>
-            </li>
+                    <a
+                        href="{{ url_for('prediction.predict') }}"
+                    >
+                        Single Prediction
+                    </a>
 
-        </ul>
+                </li>
 
-    </nav>
+                <li>
 
-</header>
+                    <a
+                        href="{{ url_for('batch_prediction.batch_predict') }}"
+                    >
+                        Batch Prediction
+                    </a>
 
-<main>
+                </li>
 
-    {% block content %}
+                <li>
 
-    {% endblock %}
+                    <a
+                        href="{{ url_for('model.models') }}"
+                    >
+                        Models
+                    </a>
 
-</main>
+                </li>
 
-<footer>
+                <li>
 
-    <p>
+                    <a
+                        href="{{ url_for('about.about_page') }}"
+                    >
+                        About
+                    </a>
 
-        © 2026 Customer Churn Prediction Platform
+                </li>
 
-    </p>
+            </ul>
 
-</footer>
+        </nav>
+
+    </header>
+
+    <!-- ====================================================== -->
+    <!-- Main Content -->
+    <!-- ====================================================== -->
+
+    <main class="page-container">
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+
+    <!-- ====================================================== -->
+    <!-- Footer -->
+    <!-- ====================================================== -->
+
+    <footer>
+
+        <p>
+
+            © 2026 Customer Churn Prediction Platform
+
+        </p>
+
+        <p>
+
+            Developed using Flask, Scikit-learn and Python
+
+        </p>
+
+    </footer>
 
 </body>
 
