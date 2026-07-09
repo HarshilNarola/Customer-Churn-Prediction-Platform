@@ -9,10 +9,6 @@ FILE_ID = "1vGDptoJyUaanbgBRhFTNZ4tfEeQ43en3"
 
 
 def download_model():
-    """
-    Download the calibrated model from Google Drive
-    if it does not already exist.
-    """
 
     if os.path.exists(MODEL_PATH):
 
@@ -27,13 +23,15 @@ def download_model():
     print("Downloading calibrated model...")
 
     gdown.download(
-
         url=url,
-
         output=MODEL_PATH,
-
         quiet=False
-
     )
 
-    print("Model downloaded successfully.")
+    if not os.path.exists(MODEL_PATH):
+
+        raise FileNotFoundError(
+            "Failed to download calibrated model."
+        )
+
+    print("Calibrated model downloaded successfully.")
