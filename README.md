@@ -163,7 +163,35 @@ Install the required packages.
 ```bash
 pip install -r requirements.txt
 ```
+## Calibrated Model
 
+The deployed web application uses a calibrated machine learning model
+(`models/calibrated_best_model.pkl`) for probability estimation.
+
+This file is not included in the repository because it exceeds GitHub's
+100 MB file size limit.
+
+To run the application locally:
+
+1. Train the final model using:
+
+   ```bash
+   python -m tests.test_final_model
+   ```
+
+2. Generate the calibrated model using:
+
+   ```bash
+   python -m tests.test_probability_calibration
+   ```
+
+This will create:
+
+```
+models/calibrated_best_model.pkl
+```
+
+which is required by the Flask application.
 ---
 
 ## Running the Application
@@ -240,8 +268,3 @@ The project includes test scripts for:
 
 ---
 
-## License
-
-This project is licensed under the MIT License.
-
-See the `LICENSE` file for more information.
