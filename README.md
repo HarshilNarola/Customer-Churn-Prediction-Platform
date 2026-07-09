@@ -260,33 +260,6 @@ The project includes test scripts for:
 
 ---
 
-# 📷 Application Screenshots
-
-You can add screenshots here.
-
-Example:
-
-- Home Page
-- Prediction Page
-- Result Page
-- Batch Prediction
-- About Page
-- Models Page
-
----
-
-# 🚀 Future Improvements
-
-- User Authentication
-- REST API
-- Explainable AI (SHAP/LIME)
-- Database Integration
-- CI/CD Pipeline
-- Kubernetes Deployment
-- Monitoring Dashboard
-
----
-
 # 👨‍💻 Author
 
 **Harshil Narola**
@@ -294,11 +267,6 @@ Example:
 GitHub
 
 https://github.com/HarshilNarola
-
-LinkedIn
-
-(Add your LinkedIn profile here)
-
 ---
 
 # ⭐ Project Status
