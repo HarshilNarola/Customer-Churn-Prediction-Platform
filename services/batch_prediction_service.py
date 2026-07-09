@@ -11,65 +11,124 @@ class BatchPredictionService:
     """
 
     MODEL_PATH = Path("models/calibrated_best_model.pkl")
+
     PIPELINE_PATH = Path("models/preprocessing_pipeline.pkl")
+
     DOWNLOAD_DIRECTORY = Path("downloads")
 
     REQUIRED_COLUMNS = [
+
         "Age",
+
         "Gender",
+
         "Tenure",
+
         "Usage Frequency",
+
         "Support Calls",
+
         "Payment Delay",
+
         "Subscription Type",
+
         "Contract Length",
+
         "Total Spend",
+
         "Last Interaction"
+
     ]
 
     CATEGORICAL_COLUMNS = [
+
         "Gender",
+
         "Subscription Type",
+
         "Contract Length"
+
     ]
 
     NUMERICAL_COLUMNS = [
+
         "Age",
+
         "Tenure",
+
         "Usage Frequency",
+
         "Support Calls",
+
         "Payment Delay",
+
         "Total Spend",
+
         "Last Interaction"
+
     ]
 
     def __init__(self) -> None:
         """
-        Load the preprocessing pipeline and trained model.
+        Initialize the batch prediction service.
+
+        The model and preprocessing pipeline are
+        loaded lazily when first required.
         """
 
-        if not self.PIPELINE_PATH.exists():
-            raise FileNotFoundError(
-                f"Pipeline not found: {self.PIPELINE_PATH}"
-            )
+        self.model = None
 
-        if not self.MODEL_PATH.exists():
-            raise FileNotFoundError(
-                f"Model not found: {self.MODEL_PATH}"
-            )
-
-        self.pipeline = joblib.load(
-            self.PIPELINE_PATH
-        )
-
-        self.model = joblib.load(
-            self.MODEL_PATH
-        )
+        self.pipeline = None
 
         self.DOWNLOAD_DIRECTORY.mkdir(
+
             parents=True,
+
             exist_ok=True
+
         )
+
+    # ==========================================================
+    # Load Model & Pipeline
+    # ==========================================================
+
+    def load_resources(self) -> None:
+        """
+        Load the trained model and preprocessing
+        pipeline if they have not already been loaded.
+        """
+
+        if self.model is None:
+
+            if not self.MODEL_PATH.exists():
+
+                raise FileNotFoundError(
+
+                    f"Model not found: {self.MODEL_PATH}"
+
+                )
+
+            self.model = joblib.load(
+
+                self.MODEL_PATH
+
+            )
+
+        if self.pipeline is None:
+
+            if not self.PIPELINE_PATH.exists():
+
+                raise FileNotFoundError(
+
+                    f"Pipeline not found: {self.PIPELINE_PATH}"
+
+                )
+
+            self.pipeline = joblib.load(
+
+                self.PIPELINE_PATH
+
+            )
 
     # ==========================================================
     # Load CSV
@@ -119,6 +178,8 @@ class BatchPredictionService:
         Apply the saved preprocessing pipeline.
         """
 
+        self.load_resources()
+
         dataframe = dataframe.copy()
 
         label_encoders = self.pipeline["label_encoders"]
@@ -163,12 +224,18 @@ class BatchPredictionService:
         Predict customer churn and probability.
         """
 
+        self.load_resources()
+
         prediction = self.model.predict(
+
             dataframe
+
         )
 
         probability = self.model.predict_proba(
+
             dataframe
+
         )[:, 1]
 
         return prediction, probability

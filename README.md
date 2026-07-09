@@ -17,6 +17,7 @@ A full-stack Machine Learning web application that predicts whether a customer i
 - Downloadable batch prediction results
 - Performance reports and visualizations
 - Responsive web interface built with Flask
+- Automatic calibrated model download for deployment
 
 ---
 
@@ -48,6 +49,12 @@ A full-stack Machine Learning web application that predicts whether a customer i
 - Git
 - GitHub
 - VS Code
+
+### Deployment
+
+- Render
+- Gunicorn
+- Google Drive (Model Storage)
 
 ---
 
@@ -117,9 +124,10 @@ Customer-Churn-Prediction-Platform/
 ├── utils/
 │
 ├── app.py
+├── Procfile
+├── runtime.txt
 ├── requirements.txt
-├── README.md
-└── LICENSE
+└── README.md
 ```
 
 ---
@@ -163,35 +171,47 @@ Install the required packages.
 ```bash
 pip install -r requirements.txt
 ```
+
+---
+
 ## Calibrated Model
 
-The deployed web application uses a calibrated machine learning model
-(`models/calibrated_best_model.pkl`) for probability estimation.
+The deployed application uses a **Calibrated Random Forest** model for probability estimation.
 
-This file is not included in the repository because it exceeds GitHub's
-100 MB file size limit.
+The model file (`models/calibrated_best_model.pkl`) is **not included** in this repository because it exceeds GitHub's 100 MB file size limit.
 
-To run the application locally:
+### Local Development
 
-1. Train the final model using:
+Generate the calibrated model by running:
 
-   ```bash
-   python -m tests.test_final_model
-   ```
-
-2. Generate the calibrated model using:
-
-   ```bash
-   python -m tests.test_probability_calibration
-   ```
-
-This will create:
-
+```bash
+python -m tests.test_final_model
 ```
+
+Then run:
+
+```bash
+python -m tests.test_probability_calibration
+```
+
+This creates:
+
+```text
 models/calibrated_best_model.pkl
 ```
 
-which is required by the Flask application.
+which is required for prediction.
+
+### Deployment
+
+During deployment, the application automatically downloads the calibrated model from Google Drive if it is not already present.
+
+For cloud deployment, configure the following environment variable:
+
+| Variable | Description |
+|----------|-------------|
+| `MODEL_FILE_ID` | Google Drive File ID of the calibrated model |
+
 ---
 
 ## Running the Application
@@ -214,15 +234,16 @@ http://127.0.0.1:5000
 
 - Data Loading
 - Data Inspection
+- Data Leakage Detection
 - Data Preprocessing
 - Exploratory Data Analysis
 - Model Training
 - Cross Validation
 - Hyperparameter Tuning
-- Probability Calibration
 - Model Evaluation
+- Probability Calibration
+- Single Customer Prediction
 - Batch Prediction
-- Single Prediction
 - Flask Web Application
 
 ---
@@ -231,11 +252,13 @@ http://127.0.0.1:5000
 
 The `reports/` directory contains:
 
+- EDA Report
 - Model Comparison Report
 - Final Model Report
 - Hyperparameter Tuning Summary
+- Cross Validation Results
 - Grid Search Results
-- EDA Report
+- Project Report
 
 ---
 
@@ -257,14 +280,25 @@ The project includes test scripts for:
 
 ---
 
+## Deployment
+
+This application is configured for deployment on **Render**.
+
+Deployment configuration includes:
+
+- Gunicorn web server
+- Automatic model download
+- Environment variable support
+- Render-compatible startup configuration
+
+---
+
 ## Future Improvements
 
 - Docker support
 - User authentication
-- Cloud deployment
-- Explainable AI (SHAP/LIME)
 - REST API
+- Explainable AI (SHAP/LIME)
 - Database integration
 
 ---
-

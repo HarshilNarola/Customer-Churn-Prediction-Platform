@@ -1,5 +1,13 @@
 import os
 
+from utils.model_downloader import download_model
+
+# ==========================================================
+# Download Calibrated Model
+# ==========================================================
+
+download_model()
+
 from flask import Flask
 
 from config.settings import Config
@@ -9,15 +17,6 @@ from routes.batch_prediction_routes import batch_prediction
 from routes.main_routes import main
 from routes.model_routes import model
 from routes.prediction_routes import prediction
-
-from utils.model_downloader import download_model
-
-
-# ==========================================================
-# Download Calibrated Model (Only if Missing)
-# ==========================================================
-
-download_model()
 
 
 # ==========================================================

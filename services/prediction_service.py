@@ -12,46 +12,90 @@ class PredictionService:
     """
 
     MODEL_PATH = Path("models/calibrated_best_model.pkl")
+
     PIPELINE_PATH = Path("models/preprocessing_pipeline.pkl")
 
     CATEGORICAL_COLUMNS = [
+
         "Gender",
+
         "Subscription Type",
+
         "Contract Length"
+
     ]
 
     NUMERICAL_COLUMNS = [
+
         "Age",
+
         "Tenure",
+
         "Usage Frequency",
+
         "Support Calls",
+
         "Payment Delay",
+
         "Total Spend",
+
         "Last Interaction"
+
     ]
 
     def __init__(self) -> None:
         """
-        Load the trained model and preprocessing pipeline.
+        Initialize the prediction service.
+
+        The model and preprocessing pipeline are
+        loaded lazily when first required.
         """
 
-        if not self.MODEL_PATH.exists():
-            raise FileNotFoundError(
-                f"Model not found: {self.MODEL_PATH}"
+        self.model = None
+
+        self.pipeline = None
+
+    # ==========================================================
+    # Load Model & Pipeline
+    # ==========================================================
+
+    def load_resources(self) -> None:
+        """
+        Load the trained model and preprocessing
+        pipeline if they have not already been loaded.
+        """
+
+        if self.model is None:
+
+            if not self.MODEL_PATH.exists():
+
+                raise FileNotFoundError(
+
+                    f"Model not found: {self.MODEL_PATH}"
+
+                )
+
+            self.model = joblib.load(
+
+                self.MODEL_PATH
+
             )
 
-        if not self.PIPELINE_PATH.exists():
-            raise FileNotFoundError(
-                f"Pipeline not found: {self.PIPELINE_PATH}"
+        if self.pipeline is None:
+
+            if not self.PIPELINE_PATH.exists():
+
+                raise FileNotFoundError(
+
+                    f"Pipeline not found: {self.PIPELINE_PATH}"
+
+                )
+
+            self.pipeline = joblib.load(
+
+                self.PIPELINE_PATH
+
             )
-
-        self.model = joblib.load(
-            self.MODEL_PATH
-        )
-
-        self.pipeline = joblib.load(
-            self.PIPELINE_PATH
-        )
 
     # ==========================================================
     # Preprocess Input
@@ -65,6 +109,8 @@ class PredictionService:
         Apply the saved preprocessing pipeline
         to a single customer.
         """
+
+        self.load_resources()
 
         dataframe = pd.DataFrame([form_data])
 
@@ -115,16 +161,24 @@ class PredictionService:
             Prediction label and calibrated probability.
         """
 
+        self.load_resources()
+
         dataframe = self.preprocess(
+
             form_data
+
         )
 
         prediction = self.model.predict(
+
             dataframe
+
         )[0]
 
         probability = self.model.predict_proba(
+
             dataframe
+
         )[0][1]
 
         prediction_label = (
