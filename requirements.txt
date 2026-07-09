@@ -14,10 +14,12 @@ curl_cffi==0.15.0
 cycler==0.12.1
 distro==1.9.0
 et_xmlfile==2.0.0
+filelock==3.29.7
 Flask==3.1.2
 flask-cors==6.0.5
 fonttools==4.63.0
 frozendict==2.4.7
+gdown==6.1.0
 google-ai-generativelanguage==0.6.15
 google-api-core==2.30.3
 google-api-python-client==2.195.0
@@ -72,6 +74,7 @@ pyparsing==3.3.2
 pyperclip==1.9.0
 PyRect==0.2.0
 PyScreeze==1.0.1
+PySocks==1.7.1
 python-dateutil==2.9.0.post0
 pytweening==1.2.0
 pytz==2025.2

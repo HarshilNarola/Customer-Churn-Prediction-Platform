@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 
 from config.settings import Config
@@ -8,6 +10,19 @@ from routes.main_routes import main
 from routes.model_routes import model
 from routes.prediction_routes import prediction
 
+from utils.model_downloader import download_model
+
+
+# ==========================================================
+# Download Calibrated Model (Only if Missing)
+# ==========================================================
+
+download_model()
+
+
+# ==========================================================
+# Create Flask Application
+# ==========================================================
 
 def create_app() -> Flask:
     """
@@ -18,9 +33,9 @@ def create_app() -> Flask:
 
     app.config.from_object(Config)
 
-    # ==========================================================
+    # ------------------------------------------------------
     # Register Blueprints
-    # ==========================================================
+    # ------------------------------------------------------
 
     app.register_blueprint(main)
 
@@ -38,10 +53,18 @@ def create_app() -> Flask:
 app = create_app()
 
 
+# ==========================================================
+# Run Application
+# ==========================================================
+
 if __name__ == "__main__":
 
     app.run(
 
-        debug=app.config.get("DEBUG", False)
+        host="0.0.0.0",
+
+        port=int(os.environ.get("PORT", 5000)),
+
+        debug=False
 
     )
