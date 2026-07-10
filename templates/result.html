@@ -32,21 +32,17 @@
         <!-- Prediction -->
         <!-- ====================================================== -->
 
-        {% if prediction == 1 %}
+        {% if prediction == "Churn" %}
 
-        <div class="status churn">
-
-            Customer is likely to Churn
-
-        </div>
+            <div class="status churn">
+                Customer is likely to Churn
+            </div>
 
         {% else %}
 
-        <div class="status stay">
-
-            Customer is likely to Stay
-
-        </div>
+            <div class="status stay">
+                Customer is likely to Stay
+            </div>
 
         {% endif %}
 

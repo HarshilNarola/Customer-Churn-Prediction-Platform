@@ -191,4 +191,9 @@ class PredictionService:
 
         )
 
+        print("Prediction Label:", prediction_label)
+        print("Classes:", self.model.classes_)
+        print("Prediction:", prediction)
+        print("Probabilities:", self.model.predict_proba(dataframe))
+
         return prediction_label, probability
